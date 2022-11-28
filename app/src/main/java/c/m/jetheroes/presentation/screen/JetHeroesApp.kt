@@ -1,4 +1,4 @@
-package c.m.jetheroes
+package c.m.jetheroes.presentation.screen
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -19,12 +19,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import c.m.jetheroes.data.HeroRepository
-import c.m.jetheroes.ui.theme.JetHeroesTheme
+import c.m.jetheroes.presentation.component.CharacterHeader
+import c.m.jetheroes.presentation.component.HeroListItem
+import c.m.jetheroes.presentation.component.ScrollToTopButton
+import c.m.jetheroes.presentation.component.SearchBar
+import c.m.jetheroes.presentation.ui.theme.JetHeroesTheme
+import c.m.jetheroes.presentation.viewmodel.JetHeroesViewModel
+import c.m.jetheroes.presentation.viewmodel.ViewModelFactory
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @Composable
-fun JetHeroesApp(
+fun JetHeroesAppScreen(
     modifier: Modifier = Modifier,
     viewModel: JetHeroesViewModel = viewModel(factory = ViewModelFactory(HeroRepository())),
 ) {
@@ -85,8 +91,8 @@ fun JetHeroesApp(
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable
-private fun JetHeroesAppPreview() {
+private fun JetHeroesAppScreenPreview() {
     JetHeroesTheme {
-        JetHeroesApp()
+        JetHeroesAppScreen()
     }
 }

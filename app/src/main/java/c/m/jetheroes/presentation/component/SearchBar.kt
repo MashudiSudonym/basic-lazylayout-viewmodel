@@ -1,4 +1,4 @@
-package c.m.jetheroes
+package c.m.jetheroes.presentation.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -14,7 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import c.m.jetheroes.ui.theme.JetHeroesTheme
+import c.m.jetheroes.R
+import c.m.jetheroes.presentation.ui.theme.JetHeroesTheme
 
 @Composable
 fun SearchBar(

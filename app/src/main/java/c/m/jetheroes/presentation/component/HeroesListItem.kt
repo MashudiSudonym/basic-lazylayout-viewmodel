@@ -1,4 +1,4 @@
-package c.m.jetheroes
+package c.m.jetheroes.presentation.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import c.m.jetheroes.ui.theme.JetHeroesTheme
+import c.m.jetheroes.presentation.ui.theme.JetHeroesTheme
 import coil.compose.AsyncImage
 
 @Composable

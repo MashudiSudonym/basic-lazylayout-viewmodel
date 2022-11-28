@@ -1,4 +1,4 @@
-package c.m.jetheroes.ui.theme
+package c.m.jetheroes.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
