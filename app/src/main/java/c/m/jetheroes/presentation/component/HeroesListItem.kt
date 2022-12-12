@@ -20,11 +20,15 @@ import coil.compose.AsyncImage
 @Composable
 fun HeroListItem(
     modifier: Modifier = Modifier,
+    id: String,
     name: String,
     photoUrl: String,
+    navigateToHeroDetail: (String) -> Unit,
 ) {
     Row(
-        modifier = modifier.clickable {},
+        modifier = modifier.clickable {
+            navigateToHeroDetail(id)
+        },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         AsyncImage(
@@ -51,8 +55,10 @@ fun HeroListItem(
 private fun HeroListItemPreview() {
     JetHeroesTheme {
         HeroListItem(
+            id = "",
             name = "H.O.S Cokroaminoto",
             photoUrl = "",
+            navigateToHeroDetail = { }
         )
     }
 }

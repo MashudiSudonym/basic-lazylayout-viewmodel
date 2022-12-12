@@ -1,89 +1,78 @@
 package c.m.jetheroes.presentation.screen
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import c.m.jetheroes.data.HeroRepository
-import c.m.jetheroes.presentation.component.CharacterHeader
-import c.m.jetheroes.presentation.component.HeroListItem
-import c.m.jetheroes.presentation.component.ScrollToTopButton
-import c.m.jetheroes.presentation.component.SearchBar
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import c.m.jetheroes.presentation.navigation.Screen
 import c.m.jetheroes.presentation.ui.theme.JetHeroesTheme
-import c.m.jetheroes.presentation.viewmodel.JetHeroesViewModel
-import c.m.jetheroes.presentation.viewmodel.ViewModelFactory
-import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @Composable
 fun JetHeroesAppScreen(
     modifier: Modifier = Modifier,
-    viewModel: JetHeroesViewModel = viewModel(factory = ViewModelFactory(HeroRepository())),
+    navController: NavHostController = rememberNavController(),
 ) {
-    val groupedHeroes by viewModel.groupedHeroes.collectAsState()
-    val query by viewModel.query
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
-    Box(modifier = modifier) {
-        val scope = rememberCoroutineScope()
-        val listState = rememberLazyListState()
-        val showButton: Boolean by remember {
-            derivedStateOf { listState.firstVisibleItemIndex > 0 }
-        }
-
-        LazyColumn(
-            state = listState,
-            contentPadding = PaddingValues(bottom = 80.dp),
-        ) {
-            item {
-                SearchBar(
-                    modifier = Modifier.background(MaterialTheme.colors.primary),
-                    query = query,
-                    onQueryChange = viewModel::search,
-                )
-            }
-
-            groupedHeroes.forEach { (initial, heroes) ->
-                stickyHeader { CharacterHeader(char = initial) }
-
-                items(heroes, key = { it.id }) { hero ->
-                    HeroListItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateItemPlacement(tween(durationMillis = 100)),
-                        name = hero.name,
-                        photoUrl = hero.photoUrl,
+    Scaffold(
+        modifier = modifier,
+        floatingActionButton = {
+            if (currentRoute == Screen.ListHeroes.route) {
+                FloatingActionButton(onClick = {
+                    navController.navigate(Screen.AboutMe.route)
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        tint = Color.White,
                     )
                 }
             }
         }
-
-        AnimatedVisibility(
-            modifier = Modifier
-                .padding(bottom = 30.dp)
-                .align(Alignment.BottomCenter),
-            visible = showButton,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
+    ) { innerPadding ->
+        NavHost(
+            modifier = modifier.padding(innerPadding),
+            navController = navController,
+            startDestination = Screen.ListHeroes.route,
         ) {
-            ScrollToTopButton(onClick = {
-                scope.launch {
-                    listState.scrollToItem(index = 0)
-                }
-            })
+            composable(Screen.ListHeroes.route) {
+                ListHeroesScreen(
+                    navigateToHeroDetail = { heroId ->
+                        navController.navigate(Screen.HeroDetail.createRoute(heroId))
+                    },
+                )
+            }
+            composable(
+                Screen.HeroDetail.route,
+                arguments = listOf(
+                    navArgument("heroId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                val heroId = it.arguments?.getString("heroId") ?: ""
+
+                HeroDetailScreen(
+                    heroId = heroId,
+                    navigateBack = { navController.navigateUp() })
+            }
         }
     }
 }

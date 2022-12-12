@@ -23,6 +23,15 @@ class JetHeroesViewModel(private val repository: HeroRepository) : ViewModel() {
         _groupedHeroes.value =
             repository.searchHeroes(_query.value).sortedBy { it.name }.groupBy { it.name[0] }
     }
+
+    private val _heroId = mutableStateOf("")
+    private val _heroById = MutableStateFlow(repository.getHeroById(_heroId.value))
+    val heroById: StateFlow<Hero> get() = _heroById
+
+    fun getHeroById(id: String) {
+        _heroId.value = id
+        _heroById.value = repository.getHeroById(_heroId.value)
+    }
 }
 
 class ViewModelFactory(private val repository: HeroRepository) :

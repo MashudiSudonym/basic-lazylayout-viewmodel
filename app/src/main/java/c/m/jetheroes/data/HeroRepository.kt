@@ -13,4 +13,10 @@ class HeroRepository {
             it.name.contains(query, ignoreCase = true)
         }
     }
+
+    fun getHeroById(id: String): Hero {
+        return HeroesData.heroes.filter {
+            it.id.contains(id, ignoreCase = true)
+        }[0]
+    }
 }
