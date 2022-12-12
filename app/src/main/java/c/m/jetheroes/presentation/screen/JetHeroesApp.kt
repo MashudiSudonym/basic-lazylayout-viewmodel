@@ -40,7 +40,7 @@ fun JetHeroesAppScreen(
                 }) {
                     Icon(
                         imageVector = Icons.Default.Info,
-                        contentDescription = null,
+                        contentDescription = "about_page",
                         tint = Color.White,
                     )
                 }
@@ -72,6 +72,11 @@ fun JetHeroesAppScreen(
                 HeroDetailScreen(
                     heroId = heroId,
                     navigateBack = { navController.navigateUp() })
+            }
+            composable(Screen.AboutMe.route) {
+                AboutMeScreen(
+                    navigateBack = { navController.navigateUp() }
+                )
             }
         }
     }

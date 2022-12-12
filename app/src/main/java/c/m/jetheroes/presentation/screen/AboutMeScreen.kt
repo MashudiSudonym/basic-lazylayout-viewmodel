@@ -1,38 +1,31 @@
 package c.m.jetheroes.presentation.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import c.m.jetheroes.data.HeroRepository
 import c.m.jetheroes.presentation.ui.theme.JetHeroesTheme
-import c.m.jetheroes.presentation.viewmodel.JetHeroesViewModel
-import c.m.jetheroes.presentation.viewmodel.ViewModelFactory
 import coil.compose.AsyncImage
 
 @Composable
-fun HeroDetailScreen(
+fun AboutMeScreen(
     modifier: Modifier = Modifier,
-    heroId: String,
-    viewModel: JetHeroesViewModel = viewModel(factory = ViewModelFactory(HeroRepository())),
     navigateBack: () -> Unit,
 ) {
-    val heroById by viewModel.heroById.collectAsState()
-
-    viewModel.getHeroById(heroId)
-
     Scaffold(
         topBar = {
             TopAppBar(modifier = modifier) {
@@ -49,15 +42,15 @@ fun HeroDetailScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AsyncImage(
-                model = heroById.photoUrl,
+                model = "https://avatars.githubusercontent.com/u/4616935?s=400&u=17ba25dcb13f9cc3a6d3cd0dd1001b0d07b824b4&v=4",
                 contentDescription = null,
                 modifier = Modifier
+                    .padding(16.dp)
                     .size(256.dp)
-                    .padding(16.dp),
+                    .clip(CircleShape),
             )
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = heroById.name,
+                text = "Muhamad Mashudi Ardi Winata",
                 fontWeight = FontWeight.Medium,
                 style = TextStyle(
                     fontSize = 18.sp,
@@ -65,11 +58,10 @@ fun HeroDetailScreen(
                 ),
                 modifier = Modifier.padding(16.dp),
             )
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Nomor ID dalam daftar pahlawan : ${heroById.id} ",
+                text = "muhamadmashudiardiwinata@gmail.com",
                 style = TextStyle(
-                    fontSize = 12.sp,
+                    fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                 ),
                 modifier = Modifier.padding(16.dp),
@@ -80,8 +72,8 @@ fun HeroDetailScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun HeroDetailScreenPreview() {
+private fun AboutMeScreenPreview() {
     JetHeroesTheme {
-        HeroDetailScreen(heroId = "", navigateBack = {})
+        AboutMeScreen(navigateBack = {})
     }
 }
