@@ -67,7 +67,7 @@ fun HeroDetailScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Nomor ID dalam daftar pahlawan : ${heroById.id} ",
+                text = heroById.description,
                 style = TextStyle(
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
